@@ -2,6 +2,7 @@
 user_id=$(id -u) #--getting userid
 logs_folder="/var/log/3tier-shell_scripting"
 logs_file="${logs_folder}/${0}.log"
+script_dir=$(dirname "$(realpath "$0")")
 domain_name="bhar92s.store"
 
 #checking user is root or not
@@ -48,7 +49,7 @@ cd /usr/share/nginx/html &>> $logs_file
 tar -xzf /tmp/frontend.tar.gz  &>> $logs_file
 check_process $? "Extracting Frontend files"
 
-cp expense.conf /etc/nginx/default.d/expense.conf  &>> $logs_file
+cp ${script_dir}/expense.conf /etc/nginx/default.d/expense.conf  &>> $logs_file
 check_process $? "Copying expense.conf to /etc/nginx/default.d/expense.conf"
 
 nginx -t &>> $logs_file
