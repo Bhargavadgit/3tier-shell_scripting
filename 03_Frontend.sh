@@ -38,5 +38,24 @@ check_process $? "Enable Nginx"
 systemctl start nginx &>> $logs_file
 check_process $? "Start Nginx"
 
+rm -rf /usr/share/nginx/html/* &>> $logs_file
+check_process $? "Removing existing Nginx html files"
 
+curl -o /tmp/frontend.tar.gz https://raw.githubusercontent.com/daws-92s/expense-documentation/refs/heads/main/artifacts/expense-frontend-v5.tar.gz &>> $logs_file
+check_process $? "Downloading Frontend files"
+
+cd /usr/share/nginx/html &>> $logs_file
+tar -xzf /tmp/frontend.tar.gz  &>> $logs_file
+check_process $? "Extracting Frontend files"
+
+cp expense.conf /etc/nginx/default.d/expense.conf  &>> $logs_file
+check_process $? "Copying expense.conf to /etc/nginx/default.d/expense.conf"
+
+nginx -t &>> $logs_file
+check_process $? "Nginx configuration test"
+
+systemctl restart nginx &>> $logs_file
+check_process $? "Restarting Nginx"
+
+echo "total time :$SECONDS"
 echo "==============[info] Script started at $(samayam) ==========="
