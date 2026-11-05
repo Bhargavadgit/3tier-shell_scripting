@@ -29,3 +29,14 @@ check_process(){
 
 echo "==============[info] Script started at $(samayam) ==========="
 
+dnf install nginx -y &>> $logs_file
+check_process $? "Installing Nginx"
+
+systemctl enable nginx &>> $logs_file
+check_process $? "Enable Nginx"
+
+systemctl start nginx &>> $logs_file
+check_process $? "Start Nginx"
+
+
+echo "==============[info] Script started at $(samayam) ==========="
