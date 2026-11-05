@@ -2,6 +2,7 @@
 user_id=$(id -u) #--getting userid
 logs_folder="/var/log/3tier-shell_scripting"
 logs_file="${logs_folder}/${0}.log"
+script_dir=$(dirname "$(realpath "$0")")
 domain_name="bhar92s.store"
 
 #checking user is root or not
@@ -69,7 +70,7 @@ check_process $? "Extracting backend artifacts"
 npm install &>> $logs_file
 check_process $? "Installing backend dependencies"
 
-cp backend.service /etc/systemd/system/expense.service &>> $logs_file
+cp ${script_dir}/backend.service /etc/systemd/system/expense.service &>> $logs_file
 check_process $? "Copying systemd service file"
 
 dnf install mysql -y &>> $logs_file
