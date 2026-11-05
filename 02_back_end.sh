@@ -70,7 +70,8 @@ check_process $? "Extracting backend artifacts"
 npm install &>> $logs_file
 check_process $? "Installing backend dependencies"
 
-cp ${script_dir}/backend.service /etc/systemd/system/expense.service &>> $logs_file
+cp ${script_dir}/backend.service /etc/systemd/system/backend.service &>> $logs_file
+# cp /backend.service /etc/systemd/system/backend.service &>> $logs_file
 check_process $? "Copying systemd service file"
 
 dnf install mysql -y &>> $logs_file
