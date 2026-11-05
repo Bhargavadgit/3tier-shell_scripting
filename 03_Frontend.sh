@@ -49,7 +49,7 @@ cd /usr/share/nginx/html &>> $logs_file
 tar -xzf /tmp/frontend.tar.gz  &>> $logs_file
 check_process $? "Extracting Frontend files"
 
-cp ${script_dir}/expense.conf /etc/nginx/default.d/expense.conf  &>> $logs_file
+cp "${script_dir}/expense.conf" /etc/nginx/default.d/expense.conf  &>> $logs_file
 check_process $? "Copying expense.conf to /etc/nginx/default.d/expense.conf"
 
 nginx -t &>> $logs_file
