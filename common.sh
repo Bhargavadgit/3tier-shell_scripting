@@ -31,7 +31,7 @@ done
 
 #----Verifying Instance id to produce Ip's
 
-if [ "$instance" != "Frontend" ];then
+if [ "$instance" != "Front_end" ];then
         ip=$(aws ec2 describe-instances \
          --instance-ids ${Instance_id} \
         --query "Reservations[].Instances[].PrivateIpAddress" \

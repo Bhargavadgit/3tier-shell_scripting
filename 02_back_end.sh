@@ -51,7 +51,7 @@ check_process $? "Creating /app folder"
 # add user to run app, First check if user already exist or not, if not then create user
 id expense &>> $logs_file
 if [ $? -ne 0 ]; then
-    useradd --system --home /app --shell /sbin/nologin --comment "expense system user" expense & >> $logs_file
+    useradd --system --home /app --shell /sbin/nologin --comment "expense system user" expense &>> $logs_file
     check_process $? "Creating expense user"
     else 
     echo "user already exist, ${Y}skipping user creation${N}"
