@@ -29,27 +29,27 @@ check_process(){
 
 echo "==============[info] Script started at $(samayam) ==========="
 
-dnf module disable nodejs -y & >> $logs_file
+dnf module disable nodejs -y &>> $logs_file
 check_process $? "Disabling Nodejs default"
 
-dnf module enable nodejs:24 -y & >> $logs_file
+dnf module enable nodejs:24 -y &>> $logs_file
 check_process $? "Enabling Nodejs 24"
 
-dnf install nodejs -y & >> $logs_file
+dnf install nodejs -y &>> $logs_file
 check_process $? "Installing Nodejs 24"
 
 echo "check node -v"
-node -v 
+#node -v 
 
 # remove existing data in app folder
-rm -rf /app & >> $logs_file
+rm -rf /app &>> $logs_file
 check_process $? "Removing existing /app folder"
 
-mkdir /app & >> $logs_file
+mkdir /app &>> $logs_file
 check_process $? "Creating /app folder"
 
 # add user to run app, First check if user already exist or not, if not then create user
-id expense & >> $logs_file
+id expense &>> $logs_file
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "expense system user" expense & >> $logs_file
     check_process $? "Creating expense user"
@@ -57,37 +57,37 @@ if [ $? -ne 0 ]; then
     echo "user already exist, ${Y}skipping user creation${N}"
 fi
 
-curl -o /tmp/backend.tar.gz https://raw.githubusercontent.com/daws-92s/expense-documentation/refs/heads/main/artifacts/expense-backend-v5.tar.gz & >> $logs_file
+curl -o /tmp/backend.tar.gz https://raw.githubusercontent.com/daws-92s/expense-documentation/refs/heads/main/artifacts/expense-backend-v5.tar.gz &>> $logs_file
 check_process $? "Downloading backend artifacts"
 
-cd /app & >> $logs_file
+cd /app &>> $logs_file
 check_process $? "Changing directory to /app"
 
-tar -xzf /tmp/backend.tar.gz & >> $logs_file
+tar -xzf /tmp/backend.tar.gz &>> $logs_file
 check_process $? "Extracting backend artifacts"
 
-npm install & >> $logs_file
+npm install &>> $logs_file
 check_process $? "Installing backend dependencies"
 
-cp backend.service /etc/systemd/system/expense.service & >> $logs_file
+cp backend.service /etc/systemd/system/expense.service &>> $logs_file
 check_process $? "Copying systemd service file"
 
-dnf install mysql -y & >> $logs_file
+dnf install mysql -y &>> $logs_file
 check_process $? "Installing Mysql client"
 
-mysql -h mysql.${domain_name} -u root -pExpenseApp@1 < /app/schema/backend.sql
+mysql -h mysql.${domain_name} -u root -pExpenseApp@1 < /app/schema/backend.sql  &>> $logs_file
 check_process $? "Initializing backend database"
 
-systemctl daemon-reload
+systemctl daemon-reload  &>> $logs_file
 check_process $? "Reloading systemd daemon"
 
-systemctl enable backend
+systemctl enable backend  &>> $logs_file
 check_process $? "Enabling backend service"
 
-systemctl start backend
+systemctl start backend  &>> $logs_file
 check_process $? "Starting backend service"
 
-systemctl restart backend
+systemctl restart backend  &>> $logs_file
 check_process $? "Restarting backend service"
 
 echo "total time :$SECONDS"

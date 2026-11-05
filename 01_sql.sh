@@ -28,16 +28,16 @@ check_process(){
 
 echo "==============[info] Script started at $(samayam) ==========="
 
-dnf install mysql-server -y & >> $logs_file
+dnf install mysql-server -y &>> $logs_file
 check_process $? "Installing Mysql Server"
 
-systemctl enable mysqld  & >> $logs_file
+systemctl enable mysqld  &>> $logs_file
 check_process $? "Enable Mysql Server"
 
-systemctl start mysqld  & >> $logs_file
+systemctl start mysqld  &>> $logs_file
 check_process $? "Start Mysql Server"
 
-mysql_secure_installation --set-root-pass ExpenseApp@1 & >> $logs_file
+mysql_secure_installation --set-root-pass ExpenseApp@1 &>> $logs_file
 check_process $? "setting Mysql root password"
 
 echo "total time :$SECONDS"
